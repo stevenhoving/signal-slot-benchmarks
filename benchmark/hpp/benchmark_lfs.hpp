@@ -1,29 +1,31 @@
 #pragma once
 
-#include <sigslot/signal.h>
+//#define BOOST_SIGNALS_NO_DEPRECATION_WARNING
+
+#include <libfastsignals/signal.h>
 
 #include "../../benchmark.hpp"
 
-class Sss : public SigSlotBase
+class Lfs //: public boost::signals2::trackable
 {
     NOINLINE(void handler(Rng& rng))
     {
         volatile std::size_t a = rng(); (void)a;
     }
 
-    public:
+public:
 
-    using Signal = ::Signal<Rng&>;
+    using Signal = is::signals::signal<void(Rng&)>;
 
     template <typename Subject, typename Foo>
     static void connect_method(Subject& subject, Foo& foo)
     {
-        subject.bind(&Foo::handler, &foo);
+        subject.connect(std::bind(&Foo::handler, &foo, std::placeholders::_1));
     }
     template <typename Subject>
     static void emit_method(Subject& subject, Rng& rng)
     {
-        subject.emit(rng);
+        subject(rng);
     }
 
     // Used for switching policies at runtime
@@ -39,10 +41,11 @@ class Sss : public SigSlotBase
     // NOT IMPLEMENTED FOR THIS LIB
     static double threaded(std::size_t);
 
-    static constexpr const char* C_LIB_NAME = "supergrover sigslot";
-    static constexpr const char* C_LIB_SOURCE_URL = "https://github.com/supergrover/sigslot";
-    static constexpr const char* C_LIB_FILE = "benchmark_sss";
+    // The following is used for report outputs
+    static constexpr const char* C_LIB_NAME = "libfastsignals";
+    static constexpr const char* C_LIB_SOURCE_URL = "";
+    static constexpr const char* C_LIB_FILE = "benchmark_lfs";
     static constexpr const char* C_LIB_IS_HEADER_ONLY = "-";
-    static constexpr const char* C_LIB_DATA_STRUCTURE = "std::list";
-    static constexpr const char* C_LIB_IS_THREAD_SAFE = "-";
+    static constexpr const char* C_LIB_DATA_STRUCTURE = "?";
+    static constexpr const char* C_LIB_IS_THREAD_SAFE = "?";
 };

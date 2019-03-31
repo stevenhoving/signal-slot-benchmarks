@@ -61,7 +61,7 @@ typedef std::shared_ptr<void> SlotScope;
 template <typename Deleter>
 SlotScope make_slot_scope(Deleter&& deleter)
 {
-    return SlotScope(reinterpret_cast<void*>(0xDEADC0DE), deleter);
+    return SlotScope(reinterpret_cast<void*>(0xDEADC0DEULL), deleter);
 }
 
 //------------------------------------------------------------------------------

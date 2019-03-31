@@ -2,11 +2,11 @@
 
 #define BOOST_SIGNALS_NO_DEPRECATION_WARNING
 
-#include <boost/signals.hpp>
+#include <boost/signals2.hpp>
 
 #include "../../benchmark.hpp"
 
-class Bs1 : public boost::signals::trackable
+class Bs1 : public boost::signals2::trackable
 {
     NOINLINE(void handler(Rng& rng))
     {
@@ -15,7 +15,7 @@ class Bs1 : public boost::signals::trackable
 
     public:
 
-    using Signal = boost::signal<void(Rng&)>;
+    using Signal = boost::signals2::signal<void(Rng&)>;
 
     template <typename Subject, typename Foo>
     static void connect_method(Subject& subject, Foo& foo)

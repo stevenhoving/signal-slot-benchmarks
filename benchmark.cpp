@@ -1,7 +1,7 @@
 #include <fstream>
 #include <iomanip>
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 #include "benchmark/hpp/benchmark_aco.hpp"
 #include "benchmark/hpp/benchmark_asg.hpp"
@@ -15,6 +15,7 @@
 #include "benchmark/hpp/benchmark_jls.hpp"
 #include "benchmark/hpp/benchmark_jos.hpp"
 #include "benchmark/hpp/benchmark_ksc.hpp"
+#include "benchmark/hpp/benchmark_lfs.hpp"
 #include "benchmark/hpp/benchmark_lss.hpp"
 #include "benchmark/hpp/benchmark_mws.hpp"
 #include "benchmark/hpp/benchmark_nls.hpp"
@@ -49,6 +50,7 @@ template <auto fun_ptr>
 double best_of(std::size_t N)
 {
     std::vector<double> results;
+    results.reserve(g_number_of_rounds);
     for (std::size_t i = 0; i < g_number_of_rounds; ++i)
     {
         results.push_back((*fun_ptr)(N));
@@ -119,6 +121,7 @@ ImmediateData run_all_benchmarks(std::size_t begin, std::size_t end)
         run_benchmark_class<Jls>(records, N);
         run_benchmark_class<Jos>(records, N);
         run_benchmark_class<Ksc>(records, N);
+        run_benchmark_class<Lfs>(records, N);
         run_benchmark_class<Lss>(records, N);
         run_benchmark_class<Mws>(records, N);
         run_benchmark_class<Nls>(records, N);
@@ -158,6 +161,7 @@ void run_all_validation_tests(std::size_t N)
     Jls::validate_assert(N);
     Jos::validate_assert(N);
     Ksc::validate_assert(N);
+    Lfs::validate_assert(N);
     Lss::validate_assert(N);
     Mws::validate_assert(N);
     Nls::validate_assert(N);
@@ -204,7 +208,7 @@ void output_perf_report_header(RelativeResults const& first_result_row, T& ost)
 
 std::string get_object_file_size(const char* file_stem)
 {
-    namespace fs = boost::filesystem;
+    namespace fs = std::filesystem;
 
 #if defined(__GNUC__) || defined(__GNUG__)
 
@@ -260,6 +264,7 @@ void output_metrics_report(T& ost)
     output_metrics_report_row<Jls>(ost);
     output_metrics_report_row<Jos>(ost);
     output_metrics_report_row<Ksc>(ost);
+    output_metrics_report_row<Lfs>(ost);
     output_metrics_report_row<Lss>(ost);
     output_metrics_report_row<Mws>(ost);
     output_metrics_report_row<Nls>(ost);

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../lib/winglot/Signals/W_Signal.h"
+#include <winglot/W_Signal.h>
 
 #include "../../benchmark.hpp"
 

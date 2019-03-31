@@ -36,7 +36,7 @@ namespace detail
   template <typename Deleter>
   UniversalPtr createEmptyPtr(Deleter deleter)
   {
-    return UniversalPtr((void*) 0xDEADC0DE, deleter);
+    return UniversalPtr((void*) 0xDEADC0DEULL, deleter);
   }
 
   // Slap the baby's bottom. This functions creates a complete no-op shared_ptr

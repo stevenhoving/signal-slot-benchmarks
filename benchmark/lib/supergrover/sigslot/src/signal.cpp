@@ -26,7 +26,7 @@
  * MA 02110-1301  USA
  */
 
-#include "signal.h"
+#include "sigslot/signal.h"
 
 #include <cassert>
 
